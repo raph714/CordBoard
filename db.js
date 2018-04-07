@@ -1,9 +1,11 @@
 const { Pool, Client } = require('pg')
+require('dotenv').config();
+
 const client = new Client({
-  user: 'cordboard',
+  user: process.env.PGUSER,
   host: 'localhost',
-  database: 'chat',
-  password: '',
+  database: process.env.PGDB,
+  password: process.env.PGPASS,
   port: 5432,
 })
 client.connect()
