@@ -19,8 +19,9 @@ io.on('connection', function(socket){
   socket.on('register', function(data) {
     var public = uuidv1();
     var private = uuidv1();
-    db.register(data, public, private);
-    socket.emit('registerComplete', {public: public, private: private});
+    db.register(data, public, private, function() {
+      socket.emit('registerComplete', {public: public, private: private});
+    });
   });
 
   //post a private_id to tell the server to associate your current

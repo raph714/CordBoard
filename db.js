@@ -11,9 +11,10 @@ const client = new Client({
 client.connect()
 
 module.exports = {
-	register: function(data, public_id, private_id) {
+	register: function(data, public_id, private_id, callback) {
 		client.query('INSERT INTO cordboard(public_data, public_id, private_id) VALUES($1, $2, $3)', [data, public_id, private_id], function (err, res) {
 			if (err) throw err
+			callback();
 		});
 	},
 	getData: function(public_id, callback) {
