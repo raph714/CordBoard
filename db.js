@@ -33,6 +33,14 @@ module.exports = {
 			}
 		});
 	},
+	getSocketId: function(public_id, callback) {
+		client.query('SELECT socket_id FROM cordboard WHERE public_id = $1', [public_id], function(err, res) {
+			if (err) throw err
+			if (res.rows.length == 1) {
+				callback(res.rows[0].socket_id);
+			}
+		});
+	},
 	goOffline: function(socket_id) {
 		client.query('UPDATE cordboard SET socket_id=NULL WHERE socket_id=$1', [socket_id], function(err, res) {
 			if (err) throw err

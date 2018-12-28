@@ -46,14 +46,17 @@ io.on('connection', function(socket){
   });
   
   //Send a message to one or more registered ids
-  //data should be of format [{uuid: String, message: String}, ...]
-  socket.on('sendMessage', function(data){
-    console.log('msg rcvd');
-    console.log(data);
-    socket.emit('sendMessage', data);
+  //data should be of format [{public_id: String, data: obj}, ...]
+  socket.on('sendMessage', function(data) {
+    var public_id = data['public_id'];
+    db.getSocketId(public_id, function(socket_id) {
+      console.log(socket.id, socket_id);
+      io.to(socket_id).emit('messageReceive', data['data']);
+      socket.emit('messageDidSend', data['data']);
+    });
   });
 });
 
-http.listen(3306, function(){
-  console.log('listening on *:3306');
+http.listen(3307, function(){
+  console.log('listening on *:3307');
 });
